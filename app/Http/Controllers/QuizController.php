@@ -52,12 +52,54 @@ class QuizController extends Controller
             }
             DB::commit();
 
-            return redirect()->route('question.index');
+            return redirect()->route('quiz.index');
         }
         catch (\Exception $exception){
             DB::rollBack();
             Log::error('Something went wrong: ' . $exception);
             return Inertia::render('Quiz/Create', [
+                'errors' => $exception
+            ]);
+        }
+    }
+
+    public function edit(Request $request, Quiz $quiz)
+    {
+        return Inertia::render('Quiz/Edit', [
+            'quiz_questions' => $quiz->question()->get(),
+            'quiz' => $quiz->only([
+                'id','name'
+            ]),
+            'questions' => Question::query()
+                ->with('section')
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where('text', 'like', '%' . $request->search . '%')
+                        ->orWhereHas('section', function ($query) use ($request) {
+                            $query->where('name', 'like', '%' . $request->search . '%');
+                        });
+                })->get(),
+            'filters' => $request->only('search')
+        ]);
+    }
+
+    public function update(Request $request, Quiz $quiz)
+    {
+        $request->validate([
+            'quiz' => 'required|string',
+            'question' => 'required|array',
+            'removed' => 'nullable|array'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $quiz->question()->sync($request->question);
+            DB::commit();
+            return redirect()->route('quiz.index');
+        }
+        catch (\Exception $exception){
+            DB::rollBack();
+            Log::error('Something went wrong: ' . $exception);
+            return Inertia::render('Quiz/Edit', [
                 'errors' => $exception
             ]);
         }

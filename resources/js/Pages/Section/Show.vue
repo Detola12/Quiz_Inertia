@@ -37,7 +37,7 @@
                             {{ section.name }}
                         </td>
                         <td class="flex justify-end mt-1 space-x-3 me-4">
-                            <a href="{"
+                            <a :href="route('section.edit', section.id)"
                                class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-black uppercase border border-gray-800 rounded-md hover:border-transparent hover:text-white hover:bg-gray-700">
                                 Edit
                             </a>
@@ -50,7 +50,7 @@
                     <tr v-else>
                         <td colspan="3"
                             class="px-6 py-4 leading-5 text-center text-gray-900 whitespace-no-wrap">
-                            No questions were found.
+                            No sections were found.
                         </td>
                     </tr>
 

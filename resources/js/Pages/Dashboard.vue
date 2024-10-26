@@ -99,7 +99,7 @@ import CustomLink from "@/Components/CustomLink.vue";
                     </p>
                 </div>
                 <div>
-                    <CustomLink :href="route('section.create')">Set Quiz</CustomLink>
+                    <CustomLink :href="route('quiz.create')">Set Quiz</CustomLink>
                 </div>
             </div>
 

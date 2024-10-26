@@ -34,6 +34,10 @@ Route::get('/section/create', [\App\Http\Controllers\SectionController::class,'c
 
 Route::post('/section/create', [\App\Http\Controllers\SectionController::class,'store'])->name('section.store');
 
+Route::get('/section/edit/{section}', [\App\Http\Controllers\SectionController::class,'edit'])->name('section.edit');
+
+Route::patch('/section/edit/{section}', [\App\Http\Controllers\SectionController::class,'update'])->name('section.update');
+
 
 
 /************************ Question Routes ***************************/
@@ -56,6 +60,10 @@ Route::get('/quiz', [\App\Http\Controllers\QuizController::class,'index'])->name
 Route::get('/quiz/create', [\App\Http\Controllers\QuizController::class,'create'])->name('quiz.create');
 
 Route::post('/quiz/create', [\App\Http\Controllers\QuizController::class,'store'])->name('quiz.store');
+
+Route::get('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class,'edit'])->name('quiz.edit');
+
+Route::patch('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class,'update'])->name('quiz.update');
 
 Route::delete('/quiz/{quiz}', [\App\Http\Controllers\QuizController::class, 'delete'])->name('quiz.delete');
 

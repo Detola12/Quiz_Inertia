@@ -72,6 +72,7 @@ class QuestionController extends Controller
                     $question->answer_b,
                     $question->answer_c,
                     $question->answer_d,
+                    $question->answer_e
                 ]
             ],
             'sections' => Section::all()
@@ -99,7 +100,7 @@ class QuestionController extends Controller
             $question->save();
 
 
-        return redirect()->route('questions.index');
+        return redirect()->route('question.index');
     }
 
     public function delete(Question $question)

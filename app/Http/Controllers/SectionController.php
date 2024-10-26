@@ -32,4 +32,22 @@ class SectionController extends Controller
 
         return redirect()->route('section.index');
     }
+
+    public function edit(Section $section)
+    {
+        return Inertia::render('Section/Edit', [
+            'section' => $section
+        ]);
+    }
+
+    public function update(Section $section, Request $request)
+    {
+        $request->validate([
+            'section' => 'required|string'
+        ]);
+
+        $section->name = $request->section;
+        $section->save();
+        return $this->index();
+    }
 }
