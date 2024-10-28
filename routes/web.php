@@ -28,43 +28,55 @@ Route::middleware('auth')->group(function () {
 });
 
 /************************ Section Routes ***************************/
-Route::get('/section', [\App\Http\Controllers\SectionController::class, 'index'])->name('section.index');
+Route::middleware('auth')->group(function () {
 
-Route::get('/section/create', [\App\Http\Controllers\SectionController::class,'create'])->name('section.create');
+    Route::get('/section', [\App\Http\Controllers\SectionController::class, 'index'])->name('section.index');
 
-Route::post('/section/create', [\App\Http\Controllers\SectionController::class,'store'])->name('section.store');
+    Route::get('/section/create', [\App\Http\Controllers\SectionController::class, 'create'])->name('section.create');
 
-Route::get('/section/edit/{section}', [\App\Http\Controllers\SectionController::class,'edit'])->name('section.edit');
+    Route::post('/section/create', [\App\Http\Controllers\SectionController::class, 'store'])->name('section.store');
 
-Route::patch('/section/edit/{section}', [\App\Http\Controllers\SectionController::class,'update'])->name('section.update');
+    Route::get('/section/edit/{section}', [\App\Http\Controllers\SectionController::class, 'edit'])->name('section.edit');
 
+    Route::patch('/section/edit/{section}', [\App\Http\Controllers\SectionController::class, 'update'])->name('section.update');
 
+});
 
 /************************ Question Routes ***************************/
-Route::get('/questions', [\App\Http\Controllers\QuestionController::class, 'index'])->name('question.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/questions', [\App\Http\Controllers\QuestionController::class, 'index'])->name('question.index');
 
-Route::get('/question/create', [\App\Http\Controllers\QuestionController::class, 'create'])->name('question.create');
+    Route::get('/question/create', [\App\Http\Controllers\QuestionController::class, 'create'])->name('question.create');
 
-Route::post('/question/create', [\App\Http\Controllers\QuestionController::class, 'store'])->name('question.store');
+    Route::post('/question/create', [\App\Http\Controllers\QuestionController::class, 'store'])->name('question.store');
 
-Route::get('/question/edit/{question}', [\App\Http\Controllers\QuestionController::class, 'edit'])->name('question.edit');
+    Route::get('/question/edit/{question}', [\App\Http\Controllers\QuestionController::class, 'edit'])->name('question.edit');
 
-Route::patch('/question/edit/{question}', [\App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
+    Route::patch('/question/edit/{question}', [\App\Http\Controllers\QuestionController::class, 'update'])->name('question.update');
 
-Route::delete('/question/{question}', [\App\Http\Controllers\QuestionController::class, 'delete'])->name('question.delete');
+    Route::delete('/question/{question}', [\App\Http\Controllers\QuestionController::class, 'delete'])->name('question.delete');
 
+});
 
 /*************************** Quiz Routes ********************************/
-Route::get('/quiz', [\App\Http\Controllers\QuizController::class,'index'])->name('quiz.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/quiz', [\App\Http\Controllers\QuizController::class, 'index'])->name('quiz.index');
 
-Route::get('/quiz/create', [\App\Http\Controllers\QuizController::class,'create'])->name('quiz.create');
+    Route::get('/quiz/create', [\App\Http\Controllers\QuizController::class, 'create'])->name('quiz.create');
 
-Route::post('/quiz/create', [\App\Http\Controllers\QuizController::class,'store'])->name('quiz.store');
+    Route::post('/quiz/create', [\App\Http\Controllers\QuizController::class, 'store'])->name('quiz.store');
 
-Route::get('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class,'edit'])->name('quiz.edit');
+    Route::get('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class, 'edit'])->name('quiz.edit');
 
-Route::patch('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class,'update'])->name('quiz.update');
+    Route::patch('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class, 'update'])->name('quiz.update');
 
-Route::delete('/quiz/{quiz}', [\App\Http\Controllers\QuizController::class, 'delete'])->name('quiz.delete');
+    Route::delete('/quiz/{quiz}', [\App\Http\Controllers\QuizController::class, 'delete'])->name('quiz.delete');
+
+});
+/**************************** Test Routes *********************************/
+Route::middleware('auth')->group(function () {
+    Route::get('/test/take/{quiz}', [\App\Http\Controllers\QuizController::class, 'take'])->name('quiz.take');
+    Route::post('/test/take/{quiz}', [\App\Http\Controllers\QuizController::class, 'submit'])->name('quiz.submit');
+});
 
 require __DIR__.'/auth.php';

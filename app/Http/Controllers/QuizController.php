@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\QuizQuestion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -109,5 +110,37 @@ class QuizController extends Controller
     {
         $quiz->delete();
         return $this->index();
+    }
+
+    public function take(Quiz $quiz)
+    {
+        return Inertia::render('Quiz/Take', [
+            'title' => $quiz->name,
+            'id' => $quiz->id,
+            'questions' => $quiz->question,
+            'count' => $quiz->question->count()
+        ]);
+    }
+
+    public function submit(Request $request, Quiz $quiz)
+    {
+        $request->validate([
+            'answer.*' => 'array'
+        ]);
+
+        $data = [];
+        foreach ($request->answer as $answer) {
+            $data[$answer[0]] = $answer[1];
+        }
+        
+
+        DB::table('user_test_details')->insert([
+            'user_id' => Auth::id(),
+            'quiz_id' => $quiz->id,
+            'data' => json_encode($data),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        return redirect('/dashboard');
     }
 }

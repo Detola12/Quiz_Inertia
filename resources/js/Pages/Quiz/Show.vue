@@ -2,7 +2,7 @@
     <Head title="Show Quizzes"/>
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>Show Section</PageHeader>
+            <PageHeader>Show Quiz</PageHeader>
         </template>
 
         <BodyCard>
