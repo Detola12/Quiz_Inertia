@@ -13,7 +13,7 @@
 
                 </div>
                 <div class="mx-2">
-                    <h4 class="text-gray-700 text-[21px] font-semibold mt-5">Questions</h4>
+                    <h4 class="text-gray-700 text-[21px] font-semibold mt-5">Questions <span><div v-if="$page.props.errors.question_count" class="text-red-500 text-sm mt-2">{{ $page.props.errors.question_count }}</div></span></h4>
                     <ul class="max-w-lg divide-y divide-gray-200 mt-1">
                         <li class="pb-3 sm:pb-4">
                             <div class="flex items-center space-x-4">
@@ -147,7 +147,9 @@ let selectedQuestions = computed(() => {
 });
 
 let submit = () => {
-    form.post('/quiz/create');
+    form.post('/quiz/create', {
+        preserveScroll : true
+    });
 }
 </script>
 

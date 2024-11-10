@@ -63,17 +63,17 @@ Route::middleware('auth')->group(function () {
 
 /*************************** Quiz Routes ********************************/
 Route::middleware(['auth'])->group(function () {
-    Route::get('/quiz', [\App\Http\Controllers\QuizController::class, 'index'])->can('viewAll', Quiz::class)->name('quiz.index');
+    Route::get('/quiz', [\App\Http\Controllers\QuizController::class, 'index'])->name('quiz.index');
 
     Route::get('/quiz/create', [\App\Http\Controllers\QuizController::class, 'create'])->can('create', Quiz::class)->name('quiz.create');
 
     Route::post('/quiz/create', [\App\Http\Controllers\QuizController::class, 'store'])->can('create', Quiz::class)->name('quiz.store');
 
-    Route::get('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class, 'edit'])->can('edit', Quiz::class)->name('quiz.edit');
+    Route::get('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class, 'edit'])->name('quiz.edit');
 
-    Route::patch('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class, 'update'])->can('edit', Quiz::class)->name('quiz.update');
+    Route::patch('/quiz/edit/{quiz}', [\App\Http\Controllers\QuizController::class, 'update'])->name('quiz.update');
 
-    Route::delete('/quiz/{quiz}', [\App\Http\Controllers\QuizController::class, 'delete'])->can('delete', Quiz::class)->name('quiz.delete');
+    Route::delete('/quiz/{quiz}', [\App\Http\Controllers\QuizController::class, 'delete'])->name('quiz.delete');
 
 });
 /**************************** Test Routes *********************************/

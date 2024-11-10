@@ -7,7 +7,7 @@
 
         <BodyCard>
             <div class="flex justify-end mb-4">
-                <Link :href="route('quiz.create')"
+                <Link v-if="$page.props.auth.role !== 'user'" :href="route('quiz.create')"
                       class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 border border-transparent rounded-md hover:bg-gray-700">
                     Create Quiz
                 </Link>
@@ -36,7 +36,7 @@
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap ">
                             {{ quiz.name }}
                         </td>
-                        <td class="flex justify-end mt-1 space-x-3 me-4">
+                        <td v-if="$page.props.auth.role !== 'user'" class="flex justify-end mt-1 space-x-3 me-4">
                             <a :href="route('quiz.edit', quiz.id)"
                                class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-black uppercase border border-gray-800 rounded-md hover:border-transparent hover:text-white hover:bg-gray-700">
                                 Edit
@@ -44,6 +44,12 @@
                             <button @click="remove(quiz.id)" class="px-4 py-2 text-xs text-white uppercase bg-red-600 border border-transparent rounded-md hover:bg-red-300 hover:text-red-700">
                                 Delete
                             </button>
+                        </td>
+                        <td v-if="$page.props.auth.role === 'user'" class="flex justify-end mt-1 space-x-3 me-4">
+                            <a :href="route('quiz.edit', quiz.id)"
+                               class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-black uppercase border border-gray-800 rounded-md hover:border-transparent hover:text-white hover:bg-gray-700">
+                                Take
+                            </a>
                         </td>
                     </tr>
 

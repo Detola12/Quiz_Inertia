@@ -52,6 +52,12 @@ import CustomLink from "@/Components/CustomLink.vue";
                                     </div>
                                 </dl>
                             </div>
+                            <div class="my-8 flex">
+                                <h3 class="text-base font-semibold leading-7 text-gray-900">Take Quiz</h3>
+                                <div class="ms-32">
+                                    <CustomLink :href="route('quiz.index')">Go to quiz page</CustomLink>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -59,7 +65,7 @@ import CustomLink from "@/Components/CustomLink.vue";
             </div>
         </div>
 
-        <section class="space-y-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <section v-if="$page.props.auth.role !== 'user'" class="space-y-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div v-if="$page.props.can.view_question" class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div>
                     <h2 class="text-lg font-medium text-gray-900">
@@ -104,5 +110,6 @@ import CustomLink from "@/Components/CustomLink.vue";
             </div>
 
         </section>
+
     </AuthenticatedLayout>
 </template>

@@ -5,24 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\QuizQuestion;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class QuizController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Quiz/Show', [
+        if (Auth::user()->is_admin) {
+            return Inertia::render('Quiz/Admin/Show', [
+                'quizzes' => Quiz::all()
+            ]);
+        }
+        return Inertia::render('Quiz/User/Show', [
             'quizzes' => Quiz::all()
         ]);
     }
 
     public function create(Request $request)
     {
-        return Inertia::render('Quiz/Create', [
+        return Inertia::render('Quiz/Admin/Create', [
             'questions' => Question::query()
                 ->with('section')
                 ->when($request->search, function ($query) use ($request) {
@@ -37,12 +45,20 @@ class QuizController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = Validator::make($request->all(),[
             'quiz' => 'required|string|unique:quizzes,name',
             'question' => 'required|array'
         ]);
+        $validated->after(function ($validated) use ($request){
+            if (count($request->question) < 10){
+                $validated->errors()->add('question_count','Questions must be at least 10');
+            }
+        });
+        $validated->validate();
+
         DB::beginTransaction();
         try {
+
             $quiz = Quiz::create(['name' => $request->quiz]);
 
             foreach ($request->question as $item) {
@@ -58,7 +74,7 @@ class QuizController extends Controller
         catch (\Exception $exception){
             DB::rollBack();
             Log::error('Something went wrong: ' . $exception);
-            return Inertia::render('Quiz/Create', [
+            return Inertia::render('Quiz/Admin/Create', [
                 'errors' => $exception
             ]);
         }
@@ -66,7 +82,8 @@ class QuizController extends Controller
 
     public function edit(Request $request, Quiz $quiz)
     {
-        return Inertia::render('Quiz/Edit', [
+        Gate::authorize('edit', [Auth::user(),Quiz::class]);
+        return Inertia::render('Quiz/Admin/Edit', [
             'quiz_questions' => $quiz->question()->get(),
             'quiz' => $quiz->only([
                 'id','name'
@@ -100,7 +117,7 @@ class QuizController extends Controller
         catch (\Exception $exception){
             DB::rollBack();
             Log::error('Something went wrong: ' . $exception);
-            return Inertia::render('Quiz/Edit', [
+            return Inertia::render('Quiz/Admin/Edit', [
                 'errors' => $exception
             ]);
         }
@@ -108,6 +125,7 @@ class QuizController extends Controller
 
     public function delete(Quiz $quiz)
     {
+        Gate::authorize('create', $quiz);
         $quiz->delete();
         return $this->index();
     }
@@ -132,7 +150,6 @@ class QuizController extends Controller
         foreach ($request->answer as $answer) {
             $data[$answer[0]] = $answer[1];
         }
-        
 
         DB::table('user_test_details')->insert([
             'user_id' => Auth::id(),
