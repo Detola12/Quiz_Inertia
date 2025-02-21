@@ -45,9 +45,12 @@
                 </div>
             </div>
 
-            <div class="flex justify-end mt-8 mx-4">
-                <SecondaryButton v-if="questionIndex + 1 < count" @click="nextQuestion">Next</SecondaryButton>
-                <SecondaryButton v-else @click="submit">Submit</SecondaryButton>
+            <div class="flex justify-between mt-8 mx-4">
+                <SecondaryButton :disabled="questionIndex < 1" @click="previousQuestion">Prev</SecondaryButton>
+                <div class="">
+                    <SecondaryButton v-if="questionIndex + 1 < count" @click="nextQuestion">Next</SecondaryButton>
+                    <SecondaryButton v-else @click="submit">Submit</SecondaryButton>
+                </div>
             </div>
         </BodyCard>
     </AuthenticatedLayout>
@@ -83,11 +86,11 @@ let nextQuestion = () => {
         timeLeft.value = 45
     }
 }
-/*let previousQuestion = () => {
+let previousQuestion = () => {
     if (questionIndex.value > 0){
         questionIndex.value--
     }
-}*/
+}
 let form = useForm({
     'answer' : [],
 })

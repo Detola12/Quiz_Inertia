@@ -65,7 +65,7 @@ import CustomLink from "@/Components/CustomLink.vue";
             </div>
         </div>
 
-    <section v-if="$page.props.auth.role !== 'user'" class="space-y-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <section v-if="$page.props.auth.role !== 'user'" class="space-y-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div v-if="$page.props.can.view_question" class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div>
                     <h2 class="text-lg font-medium text-gray-900">
@@ -110,6 +110,5 @@ import CustomLink from "@/Components/CustomLink.vue";
             </div>
 
         </section>
-
     </AuthenticatedLayout>
 </template>

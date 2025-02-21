@@ -80,7 +80,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {Head, Link, router} from "@inertiajs/vue3";
 import PageHeader from "@/Components/PageHeader.vue";
 import BodyCard from "@/Components/BodyCard.vue";
-import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import {debounce} from "lodash";
 import {ref, watch} from "vue";

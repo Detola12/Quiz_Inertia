@@ -79,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
 /**************************** Test Routes *********************************/
 Route::middleware('auth')->group(function () {
     Route::get('/test/take/{quiz}', [\App\Http\Controllers\QuizController::class, 'take'])->name('quiz.take');
+    Route::get('/result/show', [\App\Http\Controllers\QuizController::class, 'showResult'])->name('show.result');
     Route::post('/test/take/{quiz}', [\App\Http\Controllers\QuizController::class, 'submit'])->name('quiz.submit');
 });
 

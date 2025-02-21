@@ -48,7 +48,13 @@ class HandleInertiaRequests extends Middleware
                 'create_section' => $request->user()->can('viewAll', Section::class),
                 'view_quiz' => $request->user()->can('create', Quiz::class),
                 'create_quiz' => $request->user()->can('viewAll', Quiz::class),
-            ] : null
+            ] : null,
+            'error' => [
+                'message' => fn () => $request->session()->get('error')
+            ],
+            'success' => [
+                'message' => fn () => $request->session()->get('success')
+            ],
         ];
     }
 }
