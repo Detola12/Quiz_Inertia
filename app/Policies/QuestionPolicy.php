@@ -42,6 +42,13 @@ class QuestionPolicy
             : Response::deny('Not Authorized');
     }
 
+    public function edit(User $user): Response
+    {
+        return $user->is_admin
+            ? Response::allow()
+            : Response::deny('Not Authorized');
+    }
+
     /**
      * Determine whether the user can delete the model.
      */

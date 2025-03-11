@@ -14,13 +14,16 @@
                     <div v-if="form.errors.text" class="mt-2"></div>
                 </div>
 
-                <div class="mt-6">
+                <div class="mt-6" v-if="sections.length > 1">
                     <InputLabel>Section</InputLabel>
                     <select v-model="form.section" class="border-gray-300 w-1/4 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sms">
                         <option disabled>Select a section...</option>
                         <option v-for="section in sections" :key="section.id" :value="section.id">{{ section.name }}</option>
                     </select>
                     <div v-if="form.errors.section" class="mt-2"></div>
+                </div>
+                <div class="mt-6" v-else>
+                    <InputLabel>Section : <span class="font-semibold text-[15px]">{{ sections.name }}</span></InputLabel>
                 </div>
 
                 <div class="mt-8">
@@ -68,8 +71,8 @@ import {Head, useForm} from "@inertiajs/vue3";
 import PageHeader from "@/Components/PageHeader.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 
-defineProps({
-    sections : Array
+let props = defineProps({
+    sections : Array,
 })
 
 let addOption = () => {
@@ -93,6 +96,9 @@ let form = useForm({
 
 
 let submit = () => {
+    if (form.section === 0){
+        form.section = props.sections.id
+    }
     form.post('/question/create')
 }
 

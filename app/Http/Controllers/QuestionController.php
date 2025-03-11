@@ -29,8 +29,13 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->has('section_id')){
+            return Inertia::render('Question/Create', [
+                'sections' => Section::query()->where('id', $request->query('section_id'))->first()
+            ]);
+        }
         return Inertia::render('Question/Create', [
             'sections' => Section::all()
         ]);

@@ -22,7 +22,14 @@ class SectionPolicy
             : Response::deny('Not Authorized');
     }
 
-    public function edit(User $user, Section $section)
+    public function edit(User $user)
+    {
+        return $user->is_admin
+            ? Response::allow()
+            : Response::deny('Not Authorized');
+    }
+
+    public function update(User $user, Section $section)
     {
         return $user->is_admin
             ? Response::allow()

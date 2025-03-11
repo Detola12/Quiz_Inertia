@@ -67,7 +67,7 @@
                 </table>
                 <div class="mt-4 flex justify-end  space-x-3">
                     <!--                    {{ $questions->links() }}-->
-                    <Component :is="link.url != null ? Link : 'span'" :href="link.url" v-for="link in questions.links" v-html="link.label"></Component>
+                    <Component :is="link.url != null ? Link : 'span'" class="rounded-xl px-5 py-3 hover:bg-gray-100" :class="{ 'bg-red-600 text-white hover:bg-red-600' : link.active}" :href="link.url" v-for="link in questions.links" v-html="link.label"></Component>
                 </div>
             </div>
 
@@ -91,7 +91,7 @@ let props = defineProps({
 
 let remove = (id) => {
     router.delete(route("question.delete", id), {
-        onBefore: () => confirm('Are you sure you want to delete this user?'),
+        onBefore: () => confirm('Are you sure you want to delete this question?'),
     });
 }
 let search = ref(props.filters.search);

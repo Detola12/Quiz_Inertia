@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -55,5 +57,19 @@ class SectionController extends Controller
         $section->name = $request->section;
         $section->save();
         return $this->index();
+    }
+
+    public function delete(Section $section)
+    {
+        $section->delete();
+        return redirect()->route('section.index');
+    }
+
+    public function getQuestions(Section $section)
+    {
+        Gate::authorize('edit', Section::class);
+        return Inertia::render('Section/GetQuestion', [
+            'section_questions' => $section->load('questions')
+        ]);
     }
 }

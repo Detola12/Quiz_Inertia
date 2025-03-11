@@ -37,13 +37,16 @@
                             {{ section.name }}
                         </td>
                         <td class="flex justify-end mt-1 space-x-3 me-4">
-                            <a :href="route('section.edit', section.id)"
-                               class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-black uppercase border border-gray-800 rounded-md hover:border-transparent hover:text-white hover:bg-gray-700">
+                            <CustomLink type="green" :href="route('section.questions', section.id)">
+                                View
+                            </CustomLink>
+                            <CustomLink :href="route('section.edit', section.id)">
                                 Edit
-                            </a>
-                            <button class="px-4 py-2 text-xs text-white uppercase bg-red-600 border border-transparent rounded-md hover:bg-red-300 hover:text-red-700">
+                            </CustomLink>
+                            <!-- To be worked on later -->
+<!--                            <button @click="remove(section.id)" class="px-4 py-2 text-xs text-white uppercase bg-red-600 border border-transparent rounded-md hover:bg-red-300 hover:text-red-700">
                                 Delete
-                            </button>
+                            </button>-->
                         </td>
                     </tr>
 
@@ -68,13 +71,20 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {Head, Link} from "@inertiajs/vue3";
+import {Head, Link, router} from "@inertiajs/vue3";
 import PageHeader from "@/Components/PageHeader.vue";
 import BodyCard from "@/Components/BodyCard.vue";
+import CustomLink from "@/Components/CustomLink.vue";
 
 defineProps({
     sections : Array
 })
+
+let remove = (id) => {
+    router.delete(route("section.delete", id), {
+        onBefore: () => confirm('Are you sure you want to delete this section?'),
+    });
+}
 </script>
 
 <style scoped>

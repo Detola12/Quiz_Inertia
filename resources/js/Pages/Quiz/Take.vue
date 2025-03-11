@@ -5,10 +5,16 @@
         </template>
 
         <BodyCard class="container mx-auto">
+<!--            To Be Worked On Later           -->
+<!--            <div class="questions_tab p-4 bg-white">
+                <div class="grid justify-items-center content-center grid-cols-4 gap-4">
+                    <div v-for="question in questions.length" class="question_pop">{{ question }}</div>
+                </div>
+            </div>
             <div class="flex items-center me-6  justify-between">
                 <h5 class="font-italic text-sm">Question {{ questionIndex + 1 }}</h5>
-                <p class="text-xs">Timer: {{ timeLeft }}</p>
-            </div>
+&lt;!&ndash;                <p class="text-xs">Timer: {{ timeLeft }}</p>&ndash;&gt;
+            </div>-->
             <div class="my-6">
                 <h4 class="text-3xl font-semibold">{{ currentQuestion.text }}</h4>
             </div>
@@ -58,7 +64,20 @@
 
 
 <style scoped>
+    .questions_tab {
+        position: absolute;
+        left: 25px;
+    }
 
+    .question_pop{
+        background-color: #000000;
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+        padding-top: 2px;
+        color: white;
+        text-align: center;
+    }
 </style>
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -102,7 +121,7 @@ let submit = () => {
 let timeLeft = ref(45);
 let intervalId = null;
 
-const startTimer = () => {
+/*const startTimer = () => {
     intervalId = setInterval(() => {
         if (timeLeft.value > 0) {
             timeLeft.value--;
@@ -112,7 +131,7 @@ const startTimer = () => {
             clearInterval(intervalId);
         }
     }, 1000);
-};
+};*/
 
 onMounted(() => {
     startTimer();

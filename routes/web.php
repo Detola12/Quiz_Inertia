@@ -41,7 +41,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/section/edit/{section}', [\App\Http\Controllers\SectionController::class, 'edit'])->can('edit', Section::class)->name('section.edit');
 
+    Route::get('/section/{section}/questions', [\App\Http\Controllers\SectionController::class, 'getQuestions'])->can('viewAll', Section::class)->name('section.questions');
+
     Route::patch('/section/edit/{section}', [\App\Http\Controllers\SectionController::class, 'update'])->can('edit', Section::class)->name('section.update');
+
+    Route::delete('/section/{section}', [\App\Http\Controllers\SectionController::class, 'delete'])->can('delete', Section::class)->name('section.delete');
 
 });
 
@@ -55,7 +59,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/question/edit/{question}', [\App\Http\Controllers\QuestionController::class, 'edit'])->can('edit', Question::class)->name('question.edit');
 
-    Route::patch('/question/edit/{question}', [\App\Http\Controllers\QuestionController::class, 'update'])->can('edit', Question::class)->name('question.update');
+    Route::patch('/question/edit/{question}', [\App\Http\Controllers\QuestionController::class, 'update'])->can('update', Question::class)->name('question.update');
 
     Route::delete('/question/{question}', [\App\Http\Controllers\QuestionController::class, 'delete'])->can('delete', Question::class)->name('question.delete');
 
