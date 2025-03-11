@@ -1,9 +1,10 @@
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>
-                Edit Quiz
-            </PageHeader>
+            <div class="flex justify-between items-center">
+                <PageHeader>Edit Quiz</PageHeader>
+                <BackLink/>
+            </div>
         </template>
 
         <BodyCard>
@@ -108,6 +109,7 @@ import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {useForm} from "@inertiajs/vue3";
 import {computed} from "vue";
+import BackLink from "@/Components/BackLink.vue";
 
 let props = defineProps({
     'quiz_questions' : Array,

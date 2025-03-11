@@ -2,7 +2,10 @@
     <Head title="Set Quiz"/>
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>Set Quiz</PageHeader>
+            <div class="flex justify-between items-center">
+                <PageHeader>Set Quiz</PageHeader>
+                <BackLink/>
+            </div>
         </template>
         <BodyCard>
             <form @submit.prevent="submit" class="w-full">
@@ -107,6 +110,7 @@ import BodyCard from "@/Components/BodyCard.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import BackLink from "@/Components/BackLink.vue";
 
 let props = defineProps({
     questions : Array,

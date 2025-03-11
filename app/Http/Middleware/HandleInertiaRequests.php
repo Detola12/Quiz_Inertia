@@ -55,6 +55,7 @@ class HandleInertiaRequests extends Middleware
             'success' => [
                 'message' => fn () => $request->session()->get('success')
             ],
+            'previousPage' => fn() => url()->previous()
         ];
     }
 }

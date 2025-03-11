@@ -2,7 +2,10 @@
     <Head title="Show Section Question"/>
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>Show Section Question</PageHeader>
+            <div class="flex justify-between items-center">
+                <PageHeader>Show Section Question</PageHeader>
+                <BackLink/>
+            </div>
         </template>
 
         <BodyCard>
@@ -46,12 +49,12 @@
                         </td>
                     </tr>
 
-<!--                                        <tr >
-                                            <td colspan="3"
-                                                class="px-6 py-4 text-center leading-5 text-gray-900 whitespace-no-wrap">
-                                                No questions were found.
-                                            </td>
-                                        </tr>-->
+                    <!--                                        <tr >
+                                                                <td colspan="3"
+                                                                    class="px-6 py-4 text-center leading-5 text-gray-900 whitespace-no-wrap">
+                                                                    No questions were found.
+                                                                </td>
+                                                            </tr>-->
 
                     </tbody>
                 </table>
@@ -70,6 +73,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PageHeader from "@/Components/PageHeader.vue";
 import BodyCard from "@/Components/BodyCard.vue";
 import CustomLink from "@/Components/CustomLink.vue";
+import BackLink from "@/Components/BackLink.vue";
 
 let props = defineProps({
     'section_questions': Object,
