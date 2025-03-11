@@ -11,12 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('roles', function (Blueprint $table) {
+           $table->id();
+           $table->string('name');
+           $table->string('description');
+           $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignId('role_id')->default(2)->constrained('roles')->cascadeOnUpdate();
             $table->rememberToken();
             $table->timestamps();
         });

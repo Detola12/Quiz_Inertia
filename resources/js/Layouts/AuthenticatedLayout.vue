@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import {ref, useAttrs} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -40,18 +40,21 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink
+                                    v-if="$page.props.can.view_section"
                                     :href="route('section.index')"
                                     :active="route().current('section.index')"
                                 >
                                     Section
                                 </NavLink>
                                 <NavLink
+                                    v-if="$page.props.can.view_question"
                                     :href="route('question.index')"
                                     :active="route().current('question.index')"
                                 >
                                     Question
                                 </NavLink>
                                 <NavLink
+                                    v-if="$page.props.can.view_quiz"
                                     :href="route('quiz.index')"
                                     :active="route().current('quiz.index')"
                                 >

@@ -1,9 +1,11 @@
 <template>
-    <Head title="Set Quiz"/>
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>Set Quiz</PageHeader>
+            <PageHeader>
+                Edit Quiz
+            </PageHeader>
         </template>
+
         <BodyCard>
             <form @submit.prevent="submit" class="w-full">
                 <div>
@@ -18,10 +20,10 @@
                         <li class="pb-3 sm:pb-4">
                             <div class="flex items-center space-x-4">
                                 <div class="flex flex-col space-y-3 w-full">
-                                    <div v-for="(question, index) in selectedQuestions" class="text-sm flex justify-between">
-                                       <p>
-                                           {{ index + 1 }} . {{ question.text }}
-                                       </p>
+                                    <div v-for="(question, index) in selectedQuestions" :key="question.id" class="text-sm flex justify-between">
+                                        <p>
+                                            {{ index + 1 }} . {{ question.text }}
+                                        </p>
                                         <button @click="removeQuestion(question.id)" class="text-red-600">Remove</button>
                                     </div>
                                 </div>
@@ -62,7 +64,7 @@
                     </thead>
 
                     <tbody class="bg-white divide-y divide-gray-200 divide-solid">
-                    <tr v-if="questions.length > 0"  v-for="question in filteredQuestions" :key="question.id" class="bg-white">
+                    <tr v-if="props.questions.length > 0"  v-for="question in filteredQuestions" :key="question.id" class="bg-white">
                         <td class="px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
                             {{ question.id }}
                         </td>
@@ -100,30 +102,23 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PageHeader from "@/Components/PageHeader.vue";
-import {computed, ref, watch} from "vue";
-import {debounce} from "lodash";
-import {router, Link, Head, useForm} from "@inertiajs/vue3";
 import BodyCard from "@/Components/BodyCard.vue";
-import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
+import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import {useForm} from "@inertiajs/vue3";
+import {computed} from "vue";
 
 let props = defineProps({
-    questions : Array,
-    filters : Object
+    'quiz_questions' : Array,
+    'questions' : Array,
+    'quiz' : String
 })
 
-let search = ref(props.filters.search);
-watch(search, debounce(function (value){
-    router.get("/questions", {search: value},{
-        preserveState : true,
-        replace : true
-    });
-}, 300));
 
 let form = useForm({
-    'quiz' : '',
-    'question' : []
+    'quiz' : props.quiz.name,
+    'question' : props.quiz_questions.map(item => item.id),
 })
 
 let addQuestion = (id) => {
@@ -139,6 +134,7 @@ let removeQuestion = (id) => {
     }
 }
 
+
 let filteredQuestions = computed(() => {
     return props.questions.filter(question => !form.question.includes(question.id));
 });
@@ -146,9 +142,11 @@ let selectedQuestions = computed(() => {
     return props.questions.filter(question => form.question.includes(question.id));
 });
 
+
 let submit = () => {
-    form.post('/quiz/create');
+    form.patch(route('quiz.update', props.quiz.id))
 }
+
 </script>
 
 <style scoped>

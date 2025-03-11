@@ -1,9 +1,9 @@
 <template>
-    <Head title="Create Section"/>
+    <Head title="Edit Question"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>Create Question</PageHeader>
+            <PageHeader>Edit Question</PageHeader>
         </template>
 
         <div class="container max-w-4xl mx-auto text-black/70 mt-20">
@@ -29,14 +29,16 @@
                         <InputLabel class="mb-2 text-center">Options</InputLabel>
                     </div>
 
-                    <div v-for="(option, index) in form.options" :key="index">
+                    <div v-for="(option, index) in form.options.filter(x => x)" :key="index">
                         <InputLabel class="mb-2 text-xs">Option {{ index + 1 }}</InputLabel>
                         <div class="flex justify-between items-center space-x-3">
                             <TextInput v-model="form.options[index]" placeholder="Give an answer" class="placeholder:text-sm w-full mb-2" ></TextInput>
                             <button type="button" @click="removeOption" class="text-red-500 pb-2 text-sm">Delete</button>
                         </div>
 
-                        <div v-if="form.errors.options" class="mt-2"></div>
+                        <div v-if="form.errors.options" class="mt-2">
+                            {{ form.errors.options }}
+                        </div>
                     </div>
 
                     <SecondaryButton v-if="form.options.length < 5" class="mt-4" @click="addOption">Add Option</SecondaryButton>
@@ -96,7 +98,7 @@ let form = useForm({
 
 
 let submit = () => {
-    form.post('/question/create')
+    form.patch(route('question.update', props.question))
 }
 
 </script>

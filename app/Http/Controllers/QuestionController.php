@@ -29,8 +29,13 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        if ($request->has('section_id')){
+            return Inertia::render('Question/Create', [
+                'sections' => Section::query()->where('id', $request->query('section_id'))->first()
+            ]);
+        }
         return Inertia::render('Question/Create', [
             'sections' => Section::all()
         ]);
@@ -72,6 +77,7 @@ class QuestionController extends Controller
                     $question->answer_b,
                     $question->answer_c,
                     $question->answer_d,
+                    $question->answer_e
                 ]
             ],
             'sections' => Section::all()
@@ -99,7 +105,7 @@ class QuestionController extends Controller
             $question->save();
 
 
-        return redirect()->route('questions.index');
+        return redirect()->route('question.index');
     }
 
     public function delete(Question $question)

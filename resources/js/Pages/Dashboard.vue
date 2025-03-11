@@ -8,7 +8,7 @@ import CustomLink from "@/Components/CustomLink.vue";
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :permission="$attrs.can">
         <template #header>
             <h2
                 class="text-xl font-semibold leading-tight text-gray-800"
@@ -44,13 +44,19 @@ import CustomLink from "@/Components/CustomLink.vue";
                                     </div>
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Role</dt>
-                                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Admin</dd>
+                                        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ $attrs.auth.role }}</dd>
                                     </div>
                                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                         <dt class="text-sm font-medium leading-6 text-gray-900">Email address</dt>
                                         <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ $attrs.auth.user.email }}</dd>
                                     </div>
                                 </dl>
+                            </div>
+                            <div class="my-8 flex">
+                                <h3 class="text-base font-semibold leading-7 text-gray-900">Take Quiz</h3>
+                                <div class="ms-32">
+                                    <CustomLink :href="route('quiz.index')">Go to quiz page</CustomLink>
+                                </div>
                             </div>
                         </div>
 
@@ -59,8 +65,8 @@ import CustomLink from "@/Components/CustomLink.vue";
             </div>
         </div>
 
-        <section class="space-y-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
+        <section v-if="$page.props.auth.role !== 'user'" class="space-y-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div v-if="$page.props.can.view_question" class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div>
                     <h2 class="text-lg font-medium text-gray-900">
                         Set Question
@@ -74,7 +80,7 @@ import CustomLink from "@/Components/CustomLink.vue";
                     <CustomLink :href="route('question.create')">Set Question</CustomLink>
                 </div>
             </div>
-            <div class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div v-if="$page.props.can.view_section" class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div>
                     <h2 class="text-lg font-medium text-gray-900">
                         Set Section
@@ -88,7 +94,7 @@ import CustomLink from "@/Components/CustomLink.vue";
                     <CustomLink :href="route('section.create')">Set Section</CustomLink>
                 </div>
             </div>
-            <div class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div v-if="$page.props.can.view_quiz" class="flex p-6 justify-between overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div>
                     <h2 class="text-lg font-medium text-gray-900">
                         Set a quiz
@@ -99,7 +105,7 @@ import CustomLink from "@/Components/CustomLink.vue";
                     </p>
                 </div>
                 <div>
-                    <CustomLink :href="route('section.create')">Set Quiz</CustomLink>
+                    <CustomLink :href="route('quiz.create')">Set Quiz</CustomLink>
                 </div>
             </div>
 

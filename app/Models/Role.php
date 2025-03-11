@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QuizQuestion extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'quiz_questions';
-    protected $fillable = ['question_id', 'quiz_id'];
-
-
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
