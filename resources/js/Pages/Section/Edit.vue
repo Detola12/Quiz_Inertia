@@ -3,9 +3,10 @@
 
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>
-                Edit Section
-            </PageHeader>
+            <div class="flex justify-between items-center">
+                <PageHeader>Edit Section</PageHeader>
+                <BackLink/>
+            </div>
         </template>
 
             <div class="container max-w-4xl mx-auto text-black/70 mt-20">
@@ -31,6 +32,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {useForm, Head} from "@inertiajs/vue3";
+import BackLink from "@/Components/BackLink.vue";
 
 let props = defineProps({
     'section' : Array,

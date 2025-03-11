@@ -3,7 +3,10 @@
 
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>Create Section</PageHeader>
+            <div class="flex justify-between items-center">
+                <PageHeader>Create Section</PageHeader>
+                <BackLink/>
+            </div>
         </template>
 
         <div class="container max-w-4xl mx-auto text-black/70 mt-20">
@@ -28,6 +31,7 @@ import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {Head, useForm} from "@inertiajs/vue3";
 import PageHeader from "@/Components/PageHeader.vue";
+import BackLink from "@/Components/BackLink.vue";
 
 let form = useForm({
     'section' : ''

@@ -3,7 +3,10 @@
 
     <AuthenticatedLayout>
         <template #header>
-            <PageHeader>Edit Question</PageHeader>
+            <div class="flex justify-between items-center">
+                <PageHeader>Edit Question</PageHeader>
+                <BackLink/>
+            </div>
         </template>
 
         <div class="container max-w-4xl mx-auto text-black/70 mt-20">
@@ -70,6 +73,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {Head, useForm} from "@inertiajs/vue3";
 import PageHeader from "@/Components/PageHeader.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import BackLink from "@/Components/BackLink.vue";
 
 
 let props = defineProps({
