@@ -16,7 +16,7 @@ services:
         networks:
             - laravel
         ports:
-            - "9000:9000"
+            - "10000:10000"
 
     postgres:
         image: postgres:16
