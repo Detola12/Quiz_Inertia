@@ -5,55 +5,38 @@
         </template>
 
         <BodyCard class="container mx-auto">
-<!--            To Be Worked On Later           -->
-<!--            <div class="questions_tab p-4 bg-white">
-                <div class="grid justify-items-center content-center grid-cols-4 gap-4">
-                    <div v-for="question in questions.length" class="question_pop">{{ question }}</div>
-                </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                <div class="bg-blue-600 h-2.5 rounded-full" :style="{ width: progress + '%' }"></div>
             </div>
-            <div class="flex items-center me-6  justify-between">
-                <h5 class="font-italic text-sm">Question {{ questionIndex + 1 }}</h5>
-&lt;!&ndash;                <p class="text-xs">Timer: {{ timeLeft }}</p>&ndash;&gt;
-            </div>-->
+
             <div class="my-6">
                 <h4 class="text-3xl font-semibold">{{ currentQuestion.text }}</h4>
             </div>
-            <div class="flex flex-col gap-y-4 mt-4">
-                <div class="flex">
-                    <label for="hs-radio-vertical-group-1" class="text-sm text-gray-800 ms-2">
-                        <input type="radio" v-model="form.answer[questionIndex]" :value="[currentQuestion.id,'a']" name="hs-radio-vertical-group" class="shrink-0 mt-0.5 border-gray-500 rounded-full text-gray-700
-                        focus:ring-gray-600 disabled:opacity-50 disabled:pointer-events-none" id="hs-radio-vertical-group-1">
-                        <span class="ms-5">{{ currentQuestion.answer_a }}</span>
-                    </label>
-                </div>
 
-                <div class="flex">
-                    <label for="hs-radio-vertical-group-2" class="text-sm text-gray-800 ms-2">
-                        <input type="radio" v-model="form.answer[questionIndex]" :value="[currentQuestion.id,'b']" name="hs-radio-vertical-group" class="shrink-0 mt-0.5 border-gray-500 rounded-full text-gray-700
-                        focus:ring-gray-600 disabled:opacity-50 disabled:pointer-events-none" id="hs-radio-vertical-group-2">
-                        <span class="ms-5">{{ currentQuestion.answer_b }}</span>
-                    </label>
-                </div>
-
-                <div class="flex">
-                    <label for="hs-radio-vertical-group-3" class="text-sm text-gray-800 ms-2">
-                        <input type="radio" v-model="form.answer[questionIndex]" :value="[currentQuestion.id,'c']" name="hs-radio-vertical-group" class="shrink-0 mt-0.5 border-gray-500 rounded-full text-gray-700
-                        focus:ring-gray-600 disabled:opacity-50 disabled:pointer-events-none" id="hs-radio-vertical-group-3">
-                        <span class="ms-5">{{ currentQuestion.answer_c }}</span>
-                    </label>
-                </div>
-                <div class="flex">
-                    <label for="hs-radio-vertical-group-4" class="text-sm text-gray-800 ms-2">
-                        <input type="radio" v-model="form.answer[questionIndex]" :value="[currentQuestion.id,'d']" name="hs-radio-vertical-group" class="shrink-0 mt-0.5 border-gray-500 rounded-full text-gray-700
-                        focus:ring-gray-600 disabled:opacity-50 disabled:pointer-events-none" id="hs-radio-vertical-group-4">
-                        <span class="ms-5">{{ currentQuestion.answer_d }}</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div
+                    v-for="option in ['a', 'b', 'c', 'd']"
+                    :key="option"
+                    @click="selectAnswer(option)"
+                    :class="['p-4 border rounded-lg cursor-pointer transition-colors', { 'bg-blue-200': form.answer[questionIndex] && form.answer[questionIndex][1] === option }]"
+                >
+                    <label :for="'option-' + option" class="text-sm text-gray-800 ms-2">
+                        <input
+                            type="radio"
+                            :id="'option-' + option"
+                            v-model="form.answer[questionIndex]"
+                            :value="[currentQuestion.id, option]"
+                            name="hs-radio-vertical-group"
+                            class="shrink-0 mt-0.5 border-gray-500 rounded-full text-gray-700 focus:ring-gray-600 disabled:opacity-50 disabled:pointer-events-none"
+                        >
+                        <span class="ms-5">{{ currentQuestion['answer_' + option] }}</span>
                     </label>
                 </div>
             </div>
 
             <div class="flex justify-between mt-8 mx-4">
                 <SecondaryButton :disabled="questionIndex < 1" @click="previousQuestion">Prev</SecondaryButton>
-                <div class="">
+                <div>
                     <SecondaryButton v-if="questionIndex + 1 < count" @click="nextQuestion">Next</SecondaryButton>
                     <SecondaryButton v-else @click="submit">Submit</SecondaryButton>
                 </div>
@@ -98,6 +81,14 @@ let questionIndex = ref(0)
 let currentQuestion = computed(() => {
     return props.questions[questionIndex.value]
 })
+
+const progress = computed(() => {
+    return ((questionIndex.value + 1) / props.count) * 100
+})
+
+const selectAnswer = (option) => {
+    form.answer[questionIndex.value] = [currentQuestion.value.id, option]
+}
 
 let nextQuestion = () => {
     if (questionIndex.value + 1 < props.questions.length){

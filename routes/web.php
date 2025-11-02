@@ -87,4 +87,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/test/take/{quiz}', [\App\Http\Controllers\QuizController::class, 'submit'])->name('quiz.submit');
 });
 
+/*************************** Leaderboard Routes ********************************/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/leaderboard', [\App\Http\Controllers\LeaderboardController::class, 'index'])->name('leaderboard.index');
+});
+
+
 require __DIR__.'/auth.php';
